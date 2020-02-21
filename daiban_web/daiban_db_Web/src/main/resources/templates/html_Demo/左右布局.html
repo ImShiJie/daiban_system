@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>左右布局</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav {
+            width: 900px;
+            height: 25px;
+            background-color: #00B5AD;
+            margin: 0 auto;
+        }
+        .inner{
+            width: 900px;
+            height: 250px;
+            margin: 10px auto; /*上下10，左右自动居中*/
+        }
+        .one{
+            width: 445px;
+            height: 250px;
+            background-color: #ff4d51;
+            float: left;
+        }
+        .two{
+            width: 445px;
+            height: 250px;
+            background-color: #5daf34;
+            float: right;
+        }
+        .there{
+            width: 900px;
+            height: 150px;
+            background-color: yellow;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+<div class="nav"></div>
+<div class="inner">
+    <div class="one"></div>
+    <div class="two"></div>
+</div>
+<div class="there"></div>
+</body>
+</html>

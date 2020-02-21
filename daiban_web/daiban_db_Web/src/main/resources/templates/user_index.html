@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+
+<head>
+
+    <meta charset="UTF-8">
+    <title>详情页</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="//unpkg.com/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.12.0/lib/index.js"></script>
+
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <style>
+        .div_e1 { /*0010*/
+            text-align: center;
+        }
+
+        .el_but1 {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .el_but2 {
+            display: inline;
+            padding-right: 528px;
+        }
+
+        .el_but3 {
+            display: inline;
+            padding-left: 528px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <!--表头-->
+    <div class="div_e1">
+        <h1>个人带班详情</h1><br><br><br>
+
+        <div class="el_but1">
+            <div class="filter-container">
+                <el-form :inline="true">
+                    <div class="el_but2">
+                        <el-button type="info" plain><a href="login">返回首页</a></el-button>
+                    </div>
+                    <div class="el_but3">
+                        <el-button type="primary" class="butT" @click="formVisible=true;pojo={}">添加</el-button>
+                    </div>
+                </el-form>
+            </div>
+        </div>
+    </div>
+
+    <!--数据列表-->
+    <div align="center">
+        <el-table :data="users" border style="width: 80%">
+            <el-table-column prop="u_name" label="带班人姓名" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_address" label="带班地址" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_date" label="带班时间" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_day" label="带班天数" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_money" label="带班价格" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_overtime" label="加班费" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_tower_crane" label="几号机" width="120" align="center"></el-table-column>
+            <el-table-column prop="u_money_start" label="支付金额" width="120" align="center"></el-table-column>
+            <el-table-column label="操作" align="center">
+                <template slot-scope="scope">
+                    <el-button @click="edit(scope.row.u_id)" type="primary">修改</el-button>
+                    <el-button @click="dele(scope.row.u_id)" type="danger">删除</el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+    </div>
+
+    <!--添加修改弹窗-->
+    <div class="add-form">
+        <!--弹出窗口-->
+        <el-dialog title="编辑" :visible.sync="formVisible">
+            <el-form label-width="100px" :model="pojo" class="demo-form-inline">
+                <el-form-item label="带班人姓名">
+                    <el-input v-model="u_name" :disabled="true"></el-input>
+                </el-form-item>
+                <el-form-item label="带班地址">
+                    <el-select v-model="pojo.u_address" placeholder="请选择">
+                        <el-option
+                                v-for="item in addresses"
+                                :key="item.id"
+                                :label="item.address"
+                                :value="item.address">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="带班时间">
+                    <div class="block">
+                        <el-date-picker v-model="pojo.u_date" type="date" placeholder="选择日期"></el-date-picker>
+                    </div>
+                </el-form-item>
+                <el-form-item label="带班天数">
+                    <el-radio v-model="pojo.u_day" label="1">一天</el-radio>
+                    <el-radio v-model="pojo.u_day" label="0.5">半天</el-radio>
+                </el-form-item>
+                <el-form-item label="带班价格">
+                    <el-input v-model="pojo.u_money"></el-input>
+                </el-form-item>
+                <el-form-item label="加班费">
+                    <el-input v-model="pojo.u_overtime"></el-input>
+                </el-form-item>
+                <el-form-item label="几号机">
+                    <el-input v-model="pojo.u_tower_crane"></el-input>
+                </el-form-item>
+                <el-form-item label="支付金额">
+                    <el-input v-model="pojo.u_money_start"></el-input>
+                </el-form-item>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="save()">保存</el-button>
+                    <el-button @click="formVisible = false">关闭</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+    </div>
+</div>
+</body>
+<script src="/js/jquery-1.11.0.min.js"></script>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                users: "",
+                value: '',
+                formVisible: false,
+                pojo: {},
+                addresses: [],
+                u_name: '',
+            }
+        },
+        created() {
+            this.fetchData();
+/*            axios.get('/db/addressFindAll').then(response => {
+                this.addresses = response.data;
+            })*/
+        },
+        methods: {
+            // 发送ajax请求，获取用户列表
+            fetchData() {
+
+
+/*                axios.get('/db/userFindAll').then(response => {
+                    this.users = response.data;
+                    this.u_name = this.users[0].u_name
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });*/
+            },
+
+            // 添加功能
+            save() {
+                this.pojo.u_name = this.u_name;//为添加对象的u_name固定值定值
+                axios.post(`/db/${this.pojo.u_id == null ? 'addUser' : 'update'}`, this.pojo).then( response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+            },
+            // 删除功能
+            dele(id) {
+                this.$confirm('确定要删除此记录吗?', '提示', {
+                    confirmButtonText: '确定',
+                    cancelButtonText: '取消',
+                    type: 'warning'
+                }).then(() => {
+                    axios.get(`/db/delete?id=${id}`).then(response => {
+                        this.fetchData(); //刷新列表
+                    })
+                })
+            },
+        }
+    })
+</script>
+</html>

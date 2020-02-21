@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<script>
+    function 字符串() {
+        var str = String.fromCharCode(65,66,67);
+        console.log(str);
+        var name = "张三，李四，王五，赵六，牛七";
+        console.log(name.blink())
+
+        var strs = "ddffddggg";
+        var obj = {};
+        for (var i = 0; i < strs.length; i++){
+            var key = strs[i];
+            if (obj[key]){//判断key是否存在于obj对象中
+                obj[key]++;
+            } else {
+                obj[key] = 1;
+            }
+        }
+        for (var keys in obj){
+            console.log(keys+":"+obj[keys])
+        }
+        obj["a"] = "张三";
+        console.log(obj)
+    }
+    字符串();
+    function array对象数组() {
+        var arr = new Array();
+        arr.push(10);
+        arr.push(11);
+        arr.push(12);
+        arr.push("张三")
+        arr.splice(2,1);//根据索引位置删除元素，0为不删除，1为删除
+        for (var i = 0; i< arr.length; i++){
+            console.log(arr[i])
+        }
+        console.log(arr)
+    }
+    array对象数组();
+    function show() {
+        alert("我弹出来了")
+
+    }
+</script>
+<body>
+<button type="button" id="bt">开灯</button>
+<input type="button" value="开灯" id="btn" >
+<input type="button" value="改变图片" id="show">
+<img id="im"/>
+<a href="#" id="myid">这是一个a标签</a>
+
+<div id="btn_inp">
+    <input type="button" value="没怀孕">
+    <input type="button" value="没怀孕">
+    <input type="button" value="没怀孕">
+    <input type="button" value="没怀孕">
+    <input type="button" value="没怀孕">
+    <input type="button" value="没怀孕">
+</div>
+</body>
+<script>
+
+    let elementsByTagName = document.getElementById("btn_inp").getElementsByTagName("input");
+    for (var i = 0; i< elementsByTagName.length; i++){
+        elementsByTagName[i].style = "background-color: #ececec;";
+        elementsByTagName[i].onclick = function () {
+            for (var j = 0; j < elementsByTagName.length; j++){
+                elementsByTagName[j].value = "没怀孕"
+                elementsByTagName[j].style = "background-color: #ececec;";
+            }
+            this.value = "怀孕了";
+            this.style = "background-color: red;";
+        }
+    }
+
+
+
+
+
+
+    let elementById1 = document.getElementById("bt");
+    let elementById = document.getElementById("im");
+        var info = true;
+    elementById1.onclick = function(){
+        if (info){
+            elementById1.innerText = "关灯";
+            elementById.src="images/xf01.png";
+            elementById.style = "width: 100px;height: 200px;";
+            info = false;
+        } else {
+            elementById1.innerText = "开灯";
+            elementById.src="images/xf02.png";
+            elementById.style = "width: 100px;height: 200px;";
+            info = true;
+        }
+
+    }
+
+    document.getElementById("btn").onclick = function () {
+        let elementById = document.getElementById("im");
+        elementById.src="images/xf01.png";
+        elementById.style = "width: 100px;height: 200px;";
+        elementById.innerHTML = "关灯";
+        let aaa = document.getElementById("myid");
+        aaa.innerHTML="www.baidu.com";
+        // aaa.innerText="改变状态";
+
+    };
+    document.getElementById("show").onclick=function () {
+        let elementById = document.getElementById("im");
+        elementById.src="images/xf02.png";
+        elementById.width=300;
+        elementById.height=500;
+    }
+
+</script>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    .demo{
+        width: 800px;
+        height: 310px;
+        text-align: center;
+        transform: scale(0.5);
+        margin-top: -50px;
+    }
+    @-webkit-keyframes rotation{
+        from {-webkit-transform: rotate(0deg);}
+        to {-webkit-transform: rotate(360deg);}
+    }
+    .an{
+        -webkit-transform: rotate(360deg);
+        animation: rotation 0.01s linear infinite;
+/*        -moz-animation: rotation 20s linear infinite;
+        -webkit-animation: rotation 20s linear infinite;
+        -o-animation: rotation 20s linear infinite;*/
+    }
+    .img{border-radius: 50%;}
+</style>
+<body>
+<div class="demo">
+    <img class="an img" src="../../static/images/taobao.png" width="610" height="610"/>
+</div>
+</body>
+</html>

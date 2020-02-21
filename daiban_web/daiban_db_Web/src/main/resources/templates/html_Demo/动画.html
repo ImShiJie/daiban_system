@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<style>
+    *{
+        padding: 0;
+        margin: 0;
+    }
+    div{
+        top: 50%;
+        left: 50%;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        overflow: hidden;
+    }
+    .di{
+        width: 600px;
+        height: 600px;
+    }
+    .hd {
+        width: 500px;
+        height: 500px;
+    }
+    .hd1{
+        width: 400px;
+        height: 400px;
+    }
+    .hd2{
+        width: 300px;
+        height: 300px;
+    }
+    .hd3{
+        width: 200px;
+        height: 200px;
+    }
+    .hd3 img{
+        transition: all 0.5s;
+        transform: scale(0.2);
+    }
+.hd3:hover img{
+    transform: scale(0.5);
+    transform: rotate(360deg);
+}
+/*    .hd3:hover {
+        !*transform: translate(1350px,0);*!
+        transform: rotate(30deg);
+        background-color: #ac2925;
+    }*/
+</style>
+<body>
+<div class="aa">
+
+</div>
+<div class="di">
+    <div class="hd">
+        <div class="hd1">
+            <div class="hd2">
+                <div class="hd3">
+                    <img src="../../static/images/case_1.png">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

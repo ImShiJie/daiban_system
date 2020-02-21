@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/jquery.min.js"></script>
+</head>
+<style>
+    .div{
+        background-color: red;
+        border: 1px solid;
+    }
+</style>
+<script>
+    $(function () {
+        $(".db").on("click",function () {
+            $("div").css({
+                width: 200,
+                height: 200,
+                background: "red",
+                border:"10px solid #333"
+            })
+        });
+    })
+</script>
+<body>
+<button class="db">注册</button>
+<div></div>
+</body>
+
+</html>

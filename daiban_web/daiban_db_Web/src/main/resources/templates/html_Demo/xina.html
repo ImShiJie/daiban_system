@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>新浪首页</title>
+    <style>
+        .nav {
+            height: 50px; /*高度是 50*/
+            border-top: 3px solid #FF8500; /*上边框是 3像素*/
+            border-bottom: 1px solid #EDEEF0; /*下边框是 1像素*/
+            background-color: #FCFCFC;/*背景色*/
+        }
+
+        .nav a {
+            height: 50px;
+            line-height: 50px;/*字体上下居中*/
+            display: inline-block; /*转换元素*/
+            color: #4C4C4C;
+            text-decoration: none; /*去掉下划线*/
+            padding: 0 18px;/*内边距左右18px*/
+            font-size: 12px; /*字体大小12px*/
+        }
+
+        .nav a:hover {
+            background-color: #EDEEF0;
+            color: #FF8400;
+        }
+
+        .nav div {
+            display: inline-block;
+        }
+
+        .nav .tn-bg{
+            width: 70%;
+            display: block;
+            margin: 0 auto;/*div居中*/
+        }
+        .nav .tn-nav{
+            float: left;/*往左浮动*/
+        }
+
+        .nav .tn-person-r {
+            float: right;/*往右浮动*/
+        }
+    </style>
+</head>
+<body>
+<div class="nav">
+    <div class="tn-bg">
+        <div class="tn-nav">
+            <a href="#">设为首页</a>
+            <a href="#">手机新浪网</a>
+            <a href="#">移动客户端</a>
+        </div>
+        <div class="tn-person-r">
+            <a href="#">登录</a>
+            <a href="#">微博</a>
+            <a href="#">博客</a>
+            <a href="#">邮箱</a>
+            <a href="#">网站导航</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<body lang="en" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>测试</title>
+    <link href="https://cdn.bootcss.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <script src="//unpkg.com/vue/dist/vue.js"></script>
+    <script src="//unpkg.com/element-ui@2.12.0/lib/index.js"></script>
+
+    <!-- 生产环境版本，优化了尺寸和速度 -->
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+        .div_e1 { /*0010*/
+            text-align: center;
+        }
+
+        .el_but1 {
+            width: 80%;
+            margin: 0 auto;
+        }
+
+        .el_but2 {
+            display: inline;
+        }
+
+        .el_but3 {
+            display: inline;
+            padding-left: 394px;
+        }
+        .el_but4{
+            display: inline;
+            padding-right: 290px;
+        }
+    </style>
+</head>
+<div id="app">
+    <!--表头-->
+    <div class="div_e1">
+        <h1>欢迎使用带班统计系统</h1><br><br><br>
+
+    <div class="el_but1">
+        <div class="filter-container">
+            <el-form :inline="true">
+                <div class="el_but2">
+                <el-select v-model="value" placeholder="请选择" @change="address">
+                    <el-option
+                            v-for="item in addresses"
+                            :key="item.id"
+                            :label="item.address"
+                            :value="item.value+':'+item.address">
+                    </el-option>
+                </el-select>
+                </div>
+                <div class="el_but4">
+                    <el-select v-model="value1" placeholder="请选择" @change="address">
+                        <el-option
+                                v-for="item in month"
+                                :key="item.id"
+                                :label="item.month"
+                                :value="item.value1+':'+item.month">
+                        </el-option>
+                    </el-select>
+                </div>
+                <div class="el_but3">
+                    <el-button type="primary" class="butT" @click="formVisible=true;pojo={}">添加新带班人</el-button>
+                </div>
+            </el-form>
+        </div>
+    </div>
+</div>
+
+    <!--用户展示列表-->
+    <div align="center">
+        <el-table :data="users" border style="width: 80%">
+        <el-table-column prop="u_name" label="带班人姓名" width="180" align="center"></el-table-column>
+        <el-table-column prop="u_date" label="带班月份" width="180" align="center"></el-table-column>
+        <el-table-column prop="acount_day" label="总带班天数" align="center"></el-table-column>
+        <el-table-column prop="acount_overtime" label="总加班费" align="center"></el-table-column>
+        <el-table-column prop="acount_money" label="总带班费" align="center"></el-table-column>
+        <el-table-column prop="acount_money_start" label="已付金额" align="center"></el-table-column>
+        <el-table-column prop="userNon_Payment" label="未付金额" align="center"></el-table-column>
+        <el-table-column label="操作" align="center">
+            <template slot-scope="scope">
+                <el-button @click="xiangqing(scope.row.u_name)" type="primary">详情</el-button>
+            </template>
+        </el-table-column>
+    </el-table>
+</div>
+
+    <!--添加修改弹窗-->
+    <div class="add-form">
+        <!--弹出窗口-->
+        <el-dialog title="编辑" :visible.sync="formVisible">
+            <el-form label-width="100px" :model="pojo" class="demo-form-inline">
+                <el-form-item label="带班人姓名">
+                    <el-input v-model="pojo.u_name"></el-input>
+                </el-form-item>
+                <el-form-item label="带班地址">
+                    <el-select v-model="pojo.u_address" placeholder="请选择">
+                        <el-option
+                                v-for="item in addresses"
+                                :key="item.id"
+                                :label="item.address"
+                                :value="item.address">
+                        </el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="带班时间">
+                    <div class="block">
+                        <el-date-picker v-model="pojo.u_date" type="date" placeholder="选择日期"></el-date-picker>
+                    </div>
+                </el-form-item>
+                <el-form-item label="带班天数">
+                    <el-radio v-model="pojo.u_day" label="1">一天</el-radio>
+                    <el-radio v-model="pojo.u_day" label="0.5">半天</el-radio>
+                </el-form-item>
+                <el-form-item label="带班价格">
+                    <el-input v-model="pojo.u_money"></el-input>
+                </el-form-item>
+                <el-form-item label="加班费">
+                    <el-input v-model="pojo.u_overtime"></el-input>
+                </el-form-item>
+                <el-form-item label="几号机">
+                    <el-input v-model="pojo.u_tower_crane"></el-input>
+                </el-form-item>
+                <el-form-item label="支付金额">
+                    <el-input v-model="pojo.u_money_start"></el-input>
+                </el-form-item>
+                </el-form-item>
+                <el-form-item>
+                    <el-button type="primary" @click="save()">保存</el-button>
+                    <el-button @click="formVisible = false">关闭</el-button>
+                </el-form-item>
+            </el-form>
+        </el-dialog>
+    </div>
+</div>
+</body>
+<script src="/js/vue.js"></script>
+<script src="/js/axios.js"></script>
+<script src="/js/elementui.js"></script>
+
+    <!--Vue代码-->
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                users: [],
+                addresses: [],
+                value: '所有带班地址',
+                formVisible: false,
+                pojo: {},
+                value1: '11月份',
+                month: [],
+            }
+        },
+        created() {
+            this.fetchData();
+            this.findAddress();
+            this.findMonth();
+        },
+        methods: {
+            // 发送ajax请求，获取用户列表
+            fetchData() {
+                axios.get('/db/findAll').then(response => {
+                    this.users = response.data;
+                })
+                    .catch(function (error) {
+                        console.log(error);
+                    });
+            },
+            findAddress() {
+                axios.get('/db/addressFindAll').then(response => {
+                    this.addresses = response.data;
+                })
+            },
+/*            findMonth(){
+                axios.get('/db/findMonth').then(response => {
+                    this.month = response.data;
+                })
+            },*/
+            address(add) {
+                axios.get('/db/addressFindUser?address=' + add.split(':')[1]).then(response => {
+                    this.users = response.data;
+                });
+            },
+            xiangqing(u_name) {
+                location.href = ("/db/userFindAll?u_name=" + u_name);
+            },
+            // 添加功能
+            save() {
+                axios.post(`/db/addUser`, this.pojo).then( response => {
+                    this.fetchData(); //刷新列表
+                    this.formVisible = false;//关闭窗口
+                });
+            },
+        },
+    })
+</script>
+</html>

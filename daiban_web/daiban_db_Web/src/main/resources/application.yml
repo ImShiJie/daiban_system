@@ -1,0 +1,29 @@
+server:
+  port: 18086
+spring:
+  application:
+    name: db_web
+  thymeleaf:
+    cache: false
+  main:
+    allow-bean-definition-overriding: true
+
+#微服务注册中心
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka/
+  instance:
+    prefer-ip-address: true
+feign:
+  hystrix:
+    enabled: true
+#开启eureka负载均衡策略
+ribbon:
+  eureka:
+    enabled: true
+
+#会在控制台打印出sql语句
+#  logging.level.com.example.mapper=debug
+#logging:
+#  level: debug

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="js/common.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        .login-header {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            margin-left: -109px;
+        }
+
+        a {
+            font-size: 30px;
+            color: #303133;
+            text-decoration: none;
+        }
+
+        .login-kuang {
+            position: absolute;
+            width: 450px;
+            height: 200px;
+            z-index: 99999;
+            background-color: #f0f0f0;
+            left: 50%;
+            top: 0;
+            margin-left: -225px;
+            margin-top: 140px;
+            display: none;
+        }
+
+        .kuang-header {
+            width: 100%;
+            height: 40px;
+            cursor: move;
+            background-color: blue;
+        }
+
+        .cols {
+            width: 35px;
+            height: 35px;
+            position: absolute;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            font-size: 10px;
+            right: -15px;
+            top: -15px;
+        }
+
+        .login-bg {
+            width: 100%;
+            height: 100%;
+            z-index: 9999;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div class="login-header">
+    <a href="javascript:void(0);" id="link">点击,弹出登录框</a>
+</div>
+<div id="kuang" class="login-kuang">
+    <div class="kuang-header" id="title"></div>
+    <button class="cols" id="guan">关闭</button>
+</div><!--登录框-->
+<div id="bg" class="login-bg"></div><!--遮挡层-->
+</body>
+<script>
+    let my$1 = my$("link");
+    my$1.onclick = function () {
+        my$("kuang").style.display = "block";
+        my$("bg").style.display = "block";
+    }
+    my$("guan").onclick = function () {
+        my$("kuang").style.display = "none";
+        my$("bg").style.display = "none";
+    }
+    my$("title").onmousedown = function (e) {
+        var spaceX = e.clientX - my$("kuang").offsetLeft;
+        var spaceY = e.clientY - my$("kuang").offsetTop;
+
+        document.onmousemove = function (ev) {
+            var x = ev.clientX - spaceX + 225;
+            var y = ev.clientY - spaceY - 140;
+            console.log("新x轴：" + x);
+            console.log("新y轴：" + y);
+            my$("kuang").style.left = x < 225 ? 225 : x + "px";
+            my$("kuang").style.top = y < -140 ? -140 : y + "px";
+        }
+    };
+    my$("title").onmouseup = function () {
+        document.onmousemove = null;
+    }
+</script>
+</html>

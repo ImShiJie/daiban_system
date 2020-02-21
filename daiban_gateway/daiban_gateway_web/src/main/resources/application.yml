@@ -1,0 +1,61 @@
+spring:
+  application:
+    name: gateway-web
+  #跨域配置
+  cloud:
+    gateway:
+      globalcors:  #全局配置
+        cors-configurations:
+          '[/**]': # 匹配所有请求
+            allowedOrigins: "*" #跨域处理 允许所有的域
+            allowedMethods: # 支持的方法
+            - GET
+            - POST
+            - PUT
+            - DELETE
+      #Host路由配置
+      routes:
+      - id: daiban_user_route       #id是唯一标识，自己起的名字
+#        uri: localhost:18081        #用户请求需要路由到该服务【指定要路由的服务】
+#        uri: http://localhost:18081
+        #lb:使用LoadBalancerClient实现负载均衡，后面的user是微服务的名称【主要用于集群环境】
+        uri: lb://user
+        predicates:                 #路由断言，路由规则配置
+#        - Host=cloud.daiban.com**   #所有以请求http://cloud.daiban.com:8001的请求交给http://localhost:18081处理
+          #所有以daiban开头的,多个以逗号分隔
+        - Path=/api/daiban/**,/api/brand/**,/api/user/**
+        #所有以/api/brand的请求，都被路由http://localhost:18081微服务
+        #希望该路由微服务网关自动给我添加上/api前缀，每次请求真实网关的时候，需要使用微服务网关将/api去掉
+        filters:
+#        - PrefixPath=/api  #自动为路径加上/api前缀
+        - StripPrefix=1  #将请求路径中的第一个路径去掉，请求路径以/区分，一个/代表一个路径
+
+      #db配置
+      - id: daiban_db_route
+        uri: lb://db
+        predicates:
+        - Path=/api/db/**
+        filters:
+        - StripPrefix=1
+
+        - name: RequestRateLimiter #[局部过滤器]请求数限流  名字不能随便写，使用默认的factory
+          args:
+            #用户身份唯一识别标识符   #{@ipKeyResolver}就是@Bean(name = "ipKeyResolver")
+            key-resolver: "#{@ipKeyResolver}"
+            redis-rate-limiter.replenishRate: 1  #每秒允许的请求数
+            redis-rate-limiter.burstCapacity: 1  #每秒允许并发请求个数
+server:
+  port: 8001
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:6868/eureka
+  instance:
+    prefer-ip-address: true
+management:
+  endpoint:
+    gateway:
+      enabled: true
+    web:
+      exposure:
+        include: true

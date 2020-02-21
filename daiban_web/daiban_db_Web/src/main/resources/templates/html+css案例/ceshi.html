@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="../JQuery/js/jquery.min.js"></script>
+    <script src="js/common.js"></script>
+</head>
+<body>
+<input class="inp" type="button" value="呵呵" id="btn1">
+<input type="button" value="干掉第一个按钮的事件" id="btn2">
+
+<script>
+
+    var arr = [1,2,3,4,5,6];
+    var json = {"a":65,"b":66,"c":67}
+
+    $.each(json,function (index,value) {
+        console.log(index+" "+value);
+    })
+/*    for (var key in json){
+        console.log(key+"   "+json[key]);
+    }*/
+    arr.forEach(function (value,index) {
+        if (index == 2) {
+            console.log(value+"  "+index);
+        }
+    })
+
+</script>
+</body>
+</html>

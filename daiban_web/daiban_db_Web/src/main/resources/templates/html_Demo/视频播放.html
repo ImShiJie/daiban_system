@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>视频播放</title>
+</head>
+<style>
+    iframe{
+        border: 10px solid #ff4d51;
+        position: absolute;
+        left: 50%;
+        margin-left: -255px;
+    }
+    span{
+        cursor: pointer;
+    }
+    ul li:nth-last-child(4n){
+        color: #ff4d51;
+    }
+</style>
+<body>
+<audio controls autoplay>
+    <source src="../../static/renxi.mp3" type="audio/mp3" />
+</audio>
+<!--<iframe  src='http://player.youku.com/embed/XNDQxODk2NjU5Ng==' frameborder=0 'allowfullscreen'></iframe>-->
+<ul >
+    <li>ddd</li>
+    <li>bbb</li>
+    <li>ccc</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+    <li>eee</li>
+</ul>
+<div class="hd">
+    <span>span标签</span><br/>
+    <a href="#">a标签</a>
+    <ul>
+        <li class="ul" style="list-style: none">li标签</li>
+    </ul>
+    <i>i标签</i>
+</div>
+
+</body>
+<script>
+    function toggleSound() {
+        var music = document.getElementById("vd");//获取ID  
+        console.log(music);
+        console.log(music.paused);
+        if (music.paused) { //判读是否播放  
+            music.paused=false;
+            music.play(); //没有就播放 
+        }
+    }
+</script>
+</html>
