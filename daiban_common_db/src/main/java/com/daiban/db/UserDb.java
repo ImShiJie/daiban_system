@@ -8,15 +8,5 @@ package com.daiban.db;
  **/
 
 public class UserDb {
-    public static void main(String[] args) {
-        System.out.println("helloworld");
-    }
 
-    public static void sleep(){
-        System.out.println("我是master");
-    }
-
-    public static void show(){
-        System.out.println("我是daiban1分支");
-    }
 }
